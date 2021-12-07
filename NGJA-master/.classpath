@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="client/src"/>
+	<classpathentry kind="src" path="base/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiere"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Dissa/Downloads/ESMSlibV3.0-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dissa/Downloads/org.krysalis.barcode4j_2.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dissa/Downloads/zxing-2.3.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
