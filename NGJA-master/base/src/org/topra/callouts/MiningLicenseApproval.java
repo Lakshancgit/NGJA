@@ -111,10 +111,33 @@ public class MiningLicenseApproval extends CalloutEngine {
 
 			}
 			mcGemMining.save();
-
+			mTab.dataRefresh(true);
 		}
 		
 		mTab.dataRefresh(true);
+		return "";
+	}
+	
+	public String compeleteIt(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
+
+		if (mTab.getRecord_ID() == -1)
+			return "";
+
+			MCGemMining mcGemMining = new MCGemMining(ctx, mTab.getRecord_ID(), mTab.getTrxInfo());
+
+			MWFActivity[] activity = this.getWorkFLowActivity(mcGemMining);
+			mcGemMining.save();
+			mTab.dataRefresh(true);
+			
+			if (activity.length == 7) { // third node pass
+				mcGemMining.setProcessed(true);
+				mcGemMining.save();
+				this.processWorkFlow(mcGemMining);
+
+			}
+			mcGemMining.save();
+			mTab.dataRefresh(true);
+		
 		return "";
 	}
 

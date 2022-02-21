@@ -669,7 +669,7 @@ public final class MPayment extends X_C_Payment
 		
 		//if credit card -> select following account 2nd July 2020 || Lakshan
 		if (getTenderType().equalsIgnoreCase(TENDERTYPE_CreditCard)) {
-			setC_BankAccount_ID(1000004);
+			setC_BankAccount_ID(1000025);
 		}
 		
 		//Change AD_Org_ID Due to Invoice's Organization | Lakshan

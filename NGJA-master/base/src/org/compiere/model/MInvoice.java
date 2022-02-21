@@ -1484,6 +1484,8 @@ public class MInvoice extends X_C_Invoice implements DocAction {
 	 * @return new status (Complete, In Progress, Invalid, Waiting ..)
 	 */
 	public String completeIt() {
+		
+		
 		// Re-Check
 		if (!m_justPrepared) {
 			String status = prepareIt();
@@ -1549,10 +1551,19 @@ public class MInvoice extends X_C_Invoice implements DocAction {
 		String docBaseType = getC_DocType().getDocBaseType();
 
 		Arrays.stream(getLines(false)).filter(invoiceLine -> invoiceLine != null).forEach(invoiceLine -> {
+			
+				//check if their is invoice line without product or a charge 
+				//30th Jan 2022 Lakshan-Topra
+				if (invoiceLine.getC_Charge_ID()==0 && invoiceLine.getM_Product_ID()==0) {
+					throw new AdempiereException("Product or Charge missing!");
+				}
+			System.out.println(invoiceLine.get_ID() +"  "+ invoiceLine.getC_Charge_ID() +"  "+ invoiceLine.getM_Product_ID());
 			// Update Order Line
 			MOrderLine orderLine = null;
 			if (invoiceLine.getC_OrderLine_ID() != 0) {
 				if (isSOTrx() || invoiceLine.getM_Product_ID() == 0) {
+					
+					
 					orderLine = new MOrderLine(getCtx(), invoiceLine.getC_OrderLine_ID(), get_TrxName());
 					// increase invoice quantity
 					if ((isSOTrx() && MDocType.DOCBASETYPE_ARInvoice.equals(docBaseType)

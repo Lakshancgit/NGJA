@@ -87,30 +87,21 @@ public class DepositRelease extends CalloutEngine {
 				this.processWorkFlow(depositRelease);
 				
 			} else if (activity.length == 4) { // third node pass
+				if (depositRelease.getDepositReleaseStatus().equalsIgnoreCase("RFA")) {
 				
-				if (depositRelease.getDepositReleaseStatus().equalsIgnoreCase("SDDA")) {
-					depositRelease.setDepositReleaseStatus("RFA");
-					depositRelease.setProcessed(true);
-					depositRelease.save();}
+					if (depositRelease.getC_Payment_ID() == 0) {
+
+						throw new AdempiereException("No any Payment");
+					} else {
+						depositRelease.setDepositReleaseStatus("REL");
+						depositRelease.setProcessed(true);
+						depositRelease.save();
+					}
 				
-				this.processWorkFlow(depositRelease);
-
-			} else if (activity.length == 5) { // third node pass
-
-				if (depositRelease.getC_Payment_ID() == 0) {
-
-					System.out.println("pay");
-					throw new AdempiereException("No any Payment");
-				} else {
-					depositRelease.setDepositReleaseStatus("REL");
-					depositRelease.setProcessed(true);
-					depositRelease.save();
-					System.out.println("else");
 				}
-
 				this.processWorkFlow(depositRelease);
 
-			}
+			} 
 			depositRelease.save();
 			
 		}

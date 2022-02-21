@@ -26,6 +26,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 
@@ -887,19 +888,31 @@ public class AcctViewer extends CFrame
 	 */
 	private void actionRePost()
 	{
-		if (accountViewerData.documentQuery
-			&& accountViewerData.AD_Table_ID != 0 && accountViewerData.Record_ID != 0
-			&& ADialog.ask(accountViewerData.WindowNo, this, "PostImmediate?"))
-		{
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			boolean force = forcePost.isSelected();
-			String error = AEnv.postImmediate (accountViewerData.WindowNo, accountViewerData.AD_Client_ID,
-				accountViewerData.AD_Table_ID, accountViewerData.Record_ID, force);
-			setCursor(Cursor.getDefaultCursor());
-			if (error != null)
-				ADialog.error(0, this, "PostingError-N", error);
-			actionQuery();
+		
+	    int[] id = {1028985 , 1030755 , 1031965 , 1031981 , 1031990 , 1031991 , 1031992 , 1035630 , 1036452 , 1023680 , 1038962 , 1016445 , 1032185 , 1026300 , 1033098 , 1033759 , 1031388 , 1028948 , 1033915 , 1029003 , 1028804 , 1022795 , 1029350 , 1031638 , 1024080 , 1020711 , 1027900 , 1022057 , 1020853 , 1029487 , 1025081 , 1023922 , 1032451 , 1029198 , 1026859 , 1027029 , 1024363 , 1019577 , 1029610 , 1032548 , 1036815 , 1019927 , 1021749 , 1026177 , 1026042 , 1023114 , 1031827 , 1032708 , 1024360 , 1022962 , 1022964 , 1018879 , 1017804 , 1030004 , 1038671 , 1019430 , 1034526 , 1033078 , 1020195 , 1029228 , 1030018 , 1030007 , 1017806 , 1032955 , 1031382 , 1021773 , 1033686 , 1033730 , 1020266 , 1032016 , 1027353 , 1035583 , 1030579 , 1031575 , 1015566 , 1024230 , 1026783 , 1033649 , 1021521 , 1028547 , 1032055 , 1023245 , 1028210 , 1020004 , 1035606 , 1018433 , 1032172 , 1026891 , 1023943 , 1023914 , 1034987 , 1034899 , 1021806 , 1037492 , 1033829 , 1019217 , 1033805 , 1025402 , 1034032 , 1020152 , 1022068 , 1019376 , 1032455 , 1033480
+};
+		for (int i = 0; i < id.length; i++) {
+			accountViewerData.Record_ID= id[i];
+			if (accountViewerData.documentQuery
+					&& accountViewerData.AD_Table_ID != 0 && accountViewerData.Record_ID != 0
+					&& ADialog.ask(accountViewerData.WindowNo, this, "PostImmediate?"))
+				{
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					boolean force = forcePost.isSelected();
+					String error = AEnv.postImmediate (accountViewerData.WindowNo, accountViewerData.AD_Client_ID,
+						accountViewerData.AD_Table_ID, accountViewerData.Record_ID, force);
+					setCursor(Cursor.getDefaultCursor());
+					if (error != null) {
+						ADialog.error(0, this, "PostingError-N", error);}
+					else {
+						System.out.println(id[i]+" Posted");
+					}
+					actionQuery();
+					
+				}
+			
 		}
+		
 	}   //  actionRePost
 
 	/**

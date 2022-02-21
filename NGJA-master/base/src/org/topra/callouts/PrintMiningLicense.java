@@ -73,6 +73,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.topra.model.HardCoded;
 import org.topra.model.MCGemMining;
+import org.topra.model.MCMiningLicenseUpgrade;
 import org.topra.model.MCValuationCertificate;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -102,14 +103,22 @@ public class PrintMiningLicense extends CalloutEngine {
 
 		if(ADialog.ask(WindowNo, null, "Print Confirmation", "Do I print this?")){
 		int table_ID = 1000036;
-		int record_ID = mTab.getRecord_ID();
-		MCGemMining licence = new MCGemMining(ctx, record_ID, mTab.getTrxInfo());
-		ProcessInfo pi = new ProcessInfo("Mining Certificate", 1000086, table_ID, record_ID);
+		int Record_ID=0;
+		if (mTab.getAD_Window_ID()==1000163 || mTab.getAD_Window_ID()==1000164 || mTab.getAD_Window_ID()==1000162) {
+			MCMiningLicenseUpgrade upgrade = new MCMiningLicenseUpgrade(ctx, mTab.getRecord_ID(), mTab.getTrxInfo());		
+			Record_ID = upgrade.getC_GemMining_ID();
+		}else {
+			Record_ID = mTab.getRecord_ID();
+		}
+		MCGemMining licence = new MCGemMining(ctx, Record_ID, mTab.getTrxInfo());
+		ProcessInfo pi = new ProcessInfo("Mining Certificate", 1000086, table_ID, Record_ID);
 		pi.setAD_User_ID(Env.getAD_User_ID(ctx));
 		pi.setAD_Client_ID(Env.getAD_Client_ID(ctx));
 		String Name = pi.getTitle();
 		File reportFile = null;
-		int Record_ID = mTab.getRecord_ID();
+	
+		
+		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 
 		System.out.println("getReportData(pi, mTab.getTrxInfo())                ========= "
@@ -137,6 +146,9 @@ public class PrintMiningLicense extends CalloutEngine {
 				Desktop.getDesktop().browse(htmlFile.toURI());
 				licence.setPrinted(true);
 				licence.save();
+				mTab.dataRefresh(true);
+				MiningLicenseApproval approval = new MiningLicenseApproval();
+				approval.compeleteIt(ctx, WindowNo, mTab, mField, value);
 				System.out.println(
 						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			}

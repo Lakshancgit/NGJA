@@ -58,6 +58,8 @@ public class MDepositMining extends X_DepositMining {
 					throw new AdempiereException("Cannot Use this Payment!");
 				}
 			}
+		}else if(this.getDepositType().equalsIgnoreCase("LS")){
+			return true;
 		}
 		}
 		return false;

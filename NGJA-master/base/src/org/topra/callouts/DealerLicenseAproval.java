@@ -277,7 +277,7 @@ public class DealerLicenseAproval extends CalloutEngine {
 
 		lk.mobitel.esms.ws.SmsMessage msg = new lk.mobitel.esms.ws.SmsMessage();
 		msg.setMessage("Dear Sir/Madam,\r\n" + "\r\n"
-				+ "We are happy to inform that your certificate is ready. Please collect it from the Gem testing laboratory counter. Thank you - NGJA ");
+				+ "We are happy to inform that your license is ready.Please Collect it from the Regional office. Thank you - NGJA ");
 		msg.setSender("NGJA");
 		msg.setMessageType(1);
 		msg.getRecipients().add(mobileNo);

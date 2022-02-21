@@ -580,13 +580,119 @@ public class MiningLicenSinhapaInput implements FormPanel, ActionListener {
 
 	private void setDefaults(MCGemMining licence) {
 
+		
+
 		List<MCMiningLicenseSinhala> list = new Query(licence.getCtx(), MCMiningLicenseSinhala.Table_Name,
 				"C_GemMining_ID= ?", licence.get_TrxName()).setParameters(licence.get_ID()).list();
 
+		if (licence.getIsRenewal().equalsIgnoreCase("Y") && list.size() == 0) {
+			List<MCMiningLicenseSinhala> oldList = new Query(licence.getCtx(), MCMiningLicenseSinhala.Table_Name,
+					"C_GemMining_ID= ?", licence.get_TrxName()).setParameters(licence.get_ValueAsInt("C_OldGemMining_ID"))
+							.list();
+			
+			MCMiningLicenseSinhala alreadySavedLicense = oldList.get(0);
+
+			if (licence.getLicenseStatus().equalsIgnoreCase("A")) {
+				txtId.setEditable(false);
+				txtLandNature.setEditable(false);
+				txtDisctrict.setEditable(false);
+				txtFileNo.setEditable(false);
+				txtGama.setEditable(false);
+				txtLicenseNo.setEditable(false);
+				txtNameNic.setEditable(false);
+				txtNoofMine.setEditable(false);
+				txtPLK.setEditable(false);
+				txtWasama.setEditable(false);
+				txtWest.setEditable(false);
+				txtEast.setEditable(false);
+				txtSouth.setEditable(false);
+				txtNorth.setEditable(false);
+				txtNorth.setEditable(false);
+				txtLandName.setEditable(false);
+				txtSpConditions.setEditable(false);
+				txtDateSigned.setEditable(false);
+				txtExpiryDate.setEditable(false);
+				btnSave.setEnabled(false);
+			}
+
+			txtId.setText(alreadySavedLicense.getValue());
+			txtLandNature.setText(alreadySavedLicense.getLandNature());
+			txtDisctrict.setText(alreadySavedLicense.getDistrict());
+			txtFileNo.setText(alreadySavedLicense.getDocumentNo());
+			txtGama.setText(alreadySavedLicense.getVillage());
+			txtLicenseNo.setText(alreadySavedLicense.getMiningLicenseNo());
+			txtNameNic.setText(alreadySavedLicense.getNICnName());
+			txtNoofMine.setText(alreadySavedLicense.getNoOfMine());
+			txtPLK.setText(alreadySavedLicense.getDiviSecHeadOff());
+			txtWasama.setText(alreadySavedLicense.getDiviSecOffice());
+			txtWest.setText(alreadySavedLicense.getToWest());
+			txtEast.setText(alreadySavedLicense.getToEast());
+			txtSouth.setText(alreadySavedLicense.getToSouth());
+			txtNorth.setText(alreadySavedLicense.getToNorth());
+			rbnSaved.setSelected(alreadySavedLicense.isSaved());
+			rbnPrinted.setSelected(alreadySavedLicense.isPrinted());
+			txtLandName.setText(alreadySavedLicense.getLandName());
+			txtSpConditions.setText(alreadySavedLicense.getspecialConditions());
+			txtDateSigned.setText(alreadySavedLicense.getDateConfirm());
+			txtExpiryDate.setText(alreadySavedLicense.getExpiryDateOfLicense());
+			
+			
+		}else if (licence.getIsRenewal().equalsIgnoreCase("Y") && list.size() != 0) {
+			
+			MCMiningLicenseSinhala alreadySavedLicense = list.get(0);
+
+			if (licence.getLicenseStatus().equalsIgnoreCase("A")) {
+				txtId.setEditable(false);
+				txtLandNature.setEditable(false);
+				txtDisctrict.setEditable(false);
+				txtFileNo.setEditable(false);
+				txtGama.setEditable(false);
+				txtLicenseNo.setEditable(false);
+				txtNameNic.setEditable(false);
+				txtNoofMine.setEditable(false);
+				txtPLK.setEditable(false);
+				txtWasama.setEditable(false);
+				txtWest.setEditable(false);
+				txtEast.setEditable(false);
+				txtSouth.setEditable(false);
+				txtNorth.setEditable(false);
+				txtNorth.setEditable(false);
+				txtLandName.setEditable(false);
+				txtSpConditions.setEditable(false);
+				txtDateSigned.setEditable(false);
+				txtExpiryDate.setEditable(false);
+				btnSave.setEnabled(false);
+			}
+
+			txtId.setText(alreadySavedLicense.getValue());
+			txtLandNature.setText(alreadySavedLicense.getLandNature());
+			txtDisctrict.setText(alreadySavedLicense.getDistrict());
+			txtFileNo.setText(alreadySavedLicense.getDocumentNo());
+			txtGama.setText(alreadySavedLicense.getVillage());
+			txtLicenseNo.setText(alreadySavedLicense.getMiningLicenseNo());
+			txtNameNic.setText(alreadySavedLicense.getNICnName());
+			txtNoofMine.setText(alreadySavedLicense.getNoOfMine());
+			txtPLK.setText(alreadySavedLicense.getDiviSecHeadOff());
+			txtWasama.setText(alreadySavedLicense.getDiviSecOffice());
+			txtWest.setText(alreadySavedLicense.getToWest());
+			txtEast.setText(alreadySavedLicense.getToEast());
+			txtSouth.setText(alreadySavedLicense.getToSouth());
+			txtNorth.setText(alreadySavedLicense.getToNorth());
+			rbnSaved.setSelected(alreadySavedLicense.isSaved());
+			rbnPrinted.setSelected(alreadySavedLicense.isPrinted());
+			txtLandName.setText(alreadySavedLicense.getLandName());
+			txtSpConditions.setText(alreadySavedLicense.getspecialConditions());
+			txtDateSigned.setText(alreadySavedLicense.getDateConfirm());
+			txtExpiryDate.setText(alreadySavedLicense.getExpiryDateOfLicense());
+			
+		}
+
+		list = new Query(licence.getCtx(), MCMiningLicenseSinhala.Table_Name,
+				"C_GemMining_ID= ?", licence.get_TrxName()).setParameters(licence.get_ID()).list();
 		rbnSaved.setEnabled(false);
 		rbnPrinted.setEnabled(false);
 
-		if (list.size() == 0) {
+		if (list.size() == 0 && licence.getIsRenewal().equalsIgnoreCase("N")) {
 
 			MInvoice invoice = new MInvoice(licence.getCtx(), licence.getC_Invoice_ID(), licence.get_TrxName());
 			MBPartner mbPartner = new MBPartner(licence.getCtx(), licence.getC_BPartner_ID(), licence.get_TrxName());
@@ -598,7 +704,7 @@ public class MiningLicenSinhapaInput implements FormPanel, ActionListener {
 			txtDateSigned.setText(String.valueOf(licence.getDateStart()));
 			txtExpiryDate.setText(String.valueOf(licence.getDateTo()));
 
-		} else {
+		} else if (list.size() != 0 && licence.getIsRenewal().equalsIgnoreCase("N")){
 
 			MCMiningLicenseSinhala alreadySavedLicense = list.get(0);
 
@@ -697,8 +803,7 @@ public class MiningLicenSinhapaInput implements FormPanel, ActionListener {
 				JLabel errlable = new JLabel("'නැගෙනහිරට' අනිවාර්ය වේ!");
 				errlable.setFont(new java.awt.Font("Iskoola Pota", 1, 18));
 				JOptionPane.showMessageDialog(f, errlable, "Alert", JOptionPane.WARNING_MESSAGE);
-			}
-			else if (txtGama.getText().equalsIgnoreCase("")) {
+			} else if (txtGama.getText().equalsIgnoreCase("")) {
 				JLabel errlable = new JLabel("'ගම' අනිවාර්ය වේ!");
 				errlable.setFont(new java.awt.Font("Iskoola Pota", 1, 18));
 				JOptionPane.showMessageDialog(f, errlable, "Alert", JOptionPane.WARNING_MESSAGE);
